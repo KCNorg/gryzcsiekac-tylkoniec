@@ -1,0 +1,11 @@
+{
+  "phone_number": "456789123",
+  "first_name": "Tomasz",
+  "last_name": "Wiśniewski",
+  "address": null,
+  "longitude": null,
+  "latitude": null,
+  "type": "volunteer",
+  "image_url": "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+  "description": "Inżynier chętny do pomocy w naprawach domowych"
+}

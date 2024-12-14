@@ -17,14 +17,17 @@ class UserBase(BaseModel):
     image_url: str | None = None
     description: str | None = None
 
+
 class UserCreate(UserBase):
     pass
+
 
 class User(UserBase):
     id: int
 
     class Config:
         from_attributes = True
+
 
 class UserUpdate(BaseModel):
     phone_number: str | None = None
@@ -40,6 +43,7 @@ class UserUpdate(BaseModel):
     class Config:
         from_attributes = True
 
+
 class OrderBase(BaseModel):
     category: OrderCategory
     description: Dict = {}
@@ -50,10 +54,12 @@ class OrderBase(BaseModel):
     volunteer_id: int | None = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+
 
 class OrderCreate(OrderBase):
     pass
+
 
 class OrderUpdate(BaseModel):
     category: OrderCategory | None = None
@@ -67,6 +73,7 @@ class OrderUpdate(BaseModel):
     class Config:
         from_attributes = True
 
+
 class OrderFilter(BaseModel):
     category: OrderCategory | None = None
     valid_since: datetime | None = None
@@ -75,9 +82,10 @@ class OrderFilter(BaseModel):
     senior_id: int | None = None
     volunteer_id: int | None = None
 
+
 class Order(OrderBase):
     id: int
     created_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True

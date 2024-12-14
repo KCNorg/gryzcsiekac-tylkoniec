@@ -5,9 +5,8 @@ from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 from starlette.middleware.cors import CORSMiddleware
 
-from src import crud, database, schemas, models
-from src.models import Order, OrderCategory, OrderStatus
-from src.schemas import OrderFilter
+from src import crud, database, schemas
+from src.models import OrderCategory, OrderStatus
 
 app = FastAPI()
 
@@ -49,7 +48,11 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(database.get_db)
 
 
 @app.put("/users/{user_id}", response_model=schemas.User)
-def partial_update_user(user_id: int, user_update: schemas.UserUpdate, db: Session = Depends(database.get_db)):
+def partial_update_user(
+        user_id: int,
+        user_update: schemas.UserUpdate,
+        db: Session = Depends(database.get_db),
+):
     db_user = crud.get_user(db, user_id=user_id)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
@@ -67,11 +70,32 @@ def delete_user(user_id: int, db: Session = Depends(database.get_db)):
 
 
 @app.get("/orders")
-def read_orders(category: OrderCategory = None, valid_since: datetime = None, valid_until: datetime = None,
-                status: OrderStatus = None, senior_id: int = None, volunteer_id: int = None,
-                skip: int = 0, limit: int = 10, db: Session = Depends(database.get_db)):
-    orders = crud.get_orders(db, category=category, valid_since=valid_since, valid_until=valid_until,
-                             skip=skip, status=status, senior_id=senior_id, volunteer_id=volunteer_id, limit=limit)
+def read_orders(
+        category: OrderCategory = None,
+        valid_since: datetime = None,
+        valid_until: datetime = None,
+        status: OrderStatus = None,
+        senior_id: int = None,
+        volunteer_id: int = None,
+        sort_by: str = None,
+        sort_direction: str = None,
+        skip: int = 0,
+        limit: int = 10,
+        db: Session = Depends(database.get_db),
+):
+    orders = crud.get_orders(
+        db,
+        category=category,
+        valid_since=valid_since,
+        valid_until=valid_until,
+        skip=skip,
+        status=status,
+        senior_id=senior_id,
+        volunteer_id=volunteer_id,
+        limit=limit,
+        sort_by=sort_by,
+        sort_direction=sort_direction
+    )
     return orders
 
 
@@ -84,7 +108,11 @@ def read_order(order_id: int, db: Session = Depends(database.get_db)):
 
 
 @app.put("/orders/{order_id}", response_model=schemas.Order)
-def partial_update_order(order_id: int, order_update: schemas.OrderUpdate, db: Session = Depends(database.get_db)):
+def partial_update_order(
+        order_id: int,
+        order_update: schemas.OrderUpdate,
+        db: Session = Depends(database.get_db),
+):
     db_order = crud.get_order(db, order_id=order_id)
     if db_order is None:
         raise HTTPException(status_code=404, detail="Order not found")
@@ -105,11 +133,6 @@ def delete_order(order_id: int, db: Session = Depends(database.get_db)):
 def create_order(order: schemas.OrderCreate, db: Session = Depends(database.get_db)):
     return crud.create_order(db=db, order=order)
 
-
-# @app.get("/orders")
-# def get_orders(db: Session = Depends(database.get_db)):
-#     orders = db.query(models.Order).all()
-#     return orders
 
 if __name__ == "__main__":
     import uvicorn

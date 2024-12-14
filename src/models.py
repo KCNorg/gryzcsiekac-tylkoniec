@@ -51,5 +51,9 @@ class Order(Base):
     valid_since = Column(TIMESTAMP, nullable=False)
     valid_until = Column(TIMESTAMP, nullable=False)
     status = Column(Enum(OrderStatus), nullable=False)
-    senior_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-    volunteer_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=True)
+    senior_id = Column(
+        Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
+    volunteer_id = Column(
+        Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=True
+    )
