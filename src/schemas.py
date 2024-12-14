@@ -67,6 +67,14 @@ class OrderUpdate(BaseModel):
     class Config:
         from_attributes = True
 
+class OrderFilter(BaseModel):
+    category: OrderCategory | None = None
+    valid_since: datetime | None = None
+    valid_until: datetime | None = None
+    status: OrderStatus | None = None
+    senior_id: int | None = None
+    volunteer_id: int | None = None
+
 class Order(OrderBase):
     id: int
     created_at: datetime

@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Type, Optional
 
 from sqlalchemy.orm import Session
-from src.models import User, Order
+from src.models import User, Order, OrderCategory, OrderStatus
 from src.schemas import UserCreate, UserUpdate, OrderCreate, OrderUpdate
 
 
@@ -30,8 +30,33 @@ def update_user(db: Session, user_update: UserUpdate, db_user: Type[User]) -> Ty
     db.refresh(db_user)
     return db_user
 
-def get_orders(db: Session, skip: int = 0, limit: int = 10) -> list[Type[Order]]:
-    return db.query(Order).offset(skip).limit(limit).all()
+def get_orders(
+        db: Session,
+        category: OrderCategory = None,
+        valid_since: datetime = None,
+        valid_until: datetime = None,
+        status: OrderStatus = None,
+        senior_id: int = None,
+        volunteer_id: int = None,
+        skip: int = 0,
+        limit: int = 10
+) -> list:
+    query = db.query(Order)
+
+    if category:
+        query = query.filter(Order.category == category)
+    if valid_since:
+        query = query.filter(Order.valid_since >= valid_since)
+    if valid_until:
+        query = query.filter(Order.valid_until <= valid_until)
+    if status:
+        query = query.filter(Order.status == status)
+    if senior_id:
+        query = query.filter(Order.senior_id == senior_id)
+    if volunteer_id:
+        query = query.filter(Order.volunteer_id == volunteer_id)
+
+    return query.offset(skip).limit(limit).all()
 
 def get_order(db: Session, order_id: int) -> Optional[Type[Order]]:
     return db.query(Order).filter(Order.id == order_id).first()
