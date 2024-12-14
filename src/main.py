@@ -1,12 +1,13 @@
 import os
+from datetime import datetime
 
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 
-from src import crud, database, schemas
+from src import crud, database, schemas, models
+from src.models import Order
 
 app = FastAPI()
-
 
 @app.get("/")
 def read_root():
@@ -47,6 +48,21 @@ def delete_user(user_id: int, db: Session = Depends(database.get_db)):
     db.delete(db_user)
     db.commit()
     return db_user
+
+@app.post("/orders", response_model=schemas.Order)
+async def create_order(order: schemas.OrderBase, db: Session = Depends(database.get_db)):
+    order = order.model_dump()
+    order['created_at'] = datetime.now()
+    order_db = Order(**order)
+    db.add(order_db)
+    db.commit()
+    db.refresh(order_db)
+    return order_db
+
+@app.get("/orders")
+def get_orders(db: Session = Depends(database.get_db)):
+    orders = db.query(models.Order).all()
+    return orders
 
 if __name__ == "__main__":
     import uvicorn

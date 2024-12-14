@@ -1,4 +1,11 @@
+from datetime import datetime
+from enum import Enum
+from typing import List, Dict
+
 from pydantic import BaseModel
+
+from src.models import UserType, OrderCategory, OrderStatus
+
 
 class UserBase(BaseModel):
     phone_number: str
@@ -33,3 +40,32 @@ class UserUpdate(BaseModel):
 
     class Config:
         from_attributes = True
+
+class OrderBase(BaseModel):
+    category: OrderCategory
+    description: Dict = {}
+    valid_since: datetime
+    valid_until: datetime
+    status: OrderStatus = OrderStatus.PENDING
+    senior_id: int
+    volunteer_id: int = None
+
+    class Config:
+        orm_mode = True
+
+class GetOrdersRequest(BaseModel):
+    ids: List[int]
+
+class GetOrdersResponse(BaseModel):
+    orders: List[OrderBase]
+
+    class Config:
+        orm_mode = True
+
+
+class Order(OrderBase):
+    id: int
+    created_at: datetime
+
+    class Config:
+        orm_mode = True

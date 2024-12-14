@@ -12,6 +12,13 @@ class UserType(enum.Enum):
     VOLUNTEER = "volunteer"
 
 
+class OrderCategory(enum.Enum):
+    GROCERIES = "groceries"
+    PET_WALKING = "pet_walking"
+    CONVERSATION = "conversation"
+    OTHER = "other"
+
+
 class OrderStatus(enum.Enum):
     PENDING = "pending"
     ACCEPTED = "accepted"
@@ -38,8 +45,8 @@ class Order(Base):
     __tablename__ = "orders"
 
     id = Column(Integer, primary_key=True, index=True)
-    category = Column(Enum(UserType), nullable=False)
-    description = Column(JSON, nullable=False, default={})
+    category = Column(Enum(OrderCategory), nullable=False)
+    description = Column(JSON, nullable=False, default=dict)
     created_at = Column(TIMESTAMP, nullable=False)
     valid_since = Column(TIMESTAMP, nullable=False)
     valid_until = Column(TIMESTAMP, nullable=False)
