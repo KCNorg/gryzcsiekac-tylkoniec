@@ -103,6 +103,9 @@ def get_orders(
 
     results = query.offset(skip).limit(limit).all()
 
+    if latitude is None or longitude is None:
+        return results
+
     orders_with_distance = []
     for result in results:
         order = result[0]
