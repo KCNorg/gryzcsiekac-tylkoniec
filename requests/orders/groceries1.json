@@ -1,0 +1,12 @@
+{
+  "category": "groceries",
+  "description": {
+    "jabłka czerwone, duże": "5szt",
+    "landrynki cytrusowe": "1op"
+  },
+  "valid_since": "2024-12-15T00:00:00.001Z",
+  "valid_until": "2024-12-16T00:00:00.001Z",
+  "status": "pending",
+  "senior_id": 4,
+  "volunteer_id": null
+}

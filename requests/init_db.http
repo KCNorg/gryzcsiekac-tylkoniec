@@ -1,6 +1,8 @@
 @app_url = localhost:8000
 @users_endpoint = {{app_url}}/users
+@orders_endpoint = {{app_url}}/orders
 
+##### SENIORS
 ###
 POST {{users_endpoint}}
 Content-Type: application/json
@@ -36,3 +38,34 @@ POST {{users_endpoint}}
 Content-Type: application/json
 
 < users/senior6.json
+
+##### GROCERIES
+###
+POST {{orders_endpoint}}
+Content-Type: application/json
+
+< orders/groceries1.json
+
+###
+POST {{orders_endpoint}}
+Content-Type: application/json
+
+< orders/groceries1.json
+
+###
+POST {{orders_endpoint}}
+Content-Type: application/json
+
+< orders/groceries2.json
+
+###
+POST {{orders_endpoint}}
+Content-Type: application/json
+
+< orders/groceries3.json
+
+###
+POST {{orders_endpoint}}
+Content-Type: application/json
+
+< orders/groceries4.json
