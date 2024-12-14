@@ -1,8 +1,18 @@
 {
   "category": "groceries",
   "description": {
-    "jabłka czerwone, duże": "5szt",
-    "landrynki cytrusowe": "1op"
+    "data": [
+      {
+        "id": 1734209160385,
+        "text": "Chyba makaron",
+        "completed": false
+      },
+      {
+        "id": 1734209350091,
+        "text": "Marchewka czerwona du\u017ca",
+        "completed": false
+      }
+    ]
   },
   "valid_since": "2024-12-15T00:00:00.001Z",
   "valid_until": "2024-12-16T00:00:00.001Z",

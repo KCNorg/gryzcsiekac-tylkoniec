@@ -39,6 +39,44 @@ Content-Type: application/json
 
 < users/senior6.json
 
+##### VOLUNTEERS
+
+###
+POST {{users_endpoint}}
+Content-Type: application/json
+
+< users/volunteer1.json
+
+###
+POST {{users_endpoint}}
+Content-Type: application/json
+
+< users/volunteer2.json
+
+###
+POST {{users_endpoint}}
+Content-Type: application/json
+
+< users/volunteer3.json
+
+###
+POST {{users_endpoint}}
+Content-Type: application/json
+
+< users/volunteer4.json
+
+###
+POST {{users_endpoint}}
+Content-Type: application/json
+
+< users/volunteer5.json
+
+###
+POST {{users_endpoint}}
+Content-Type: application/json
+
+< users/volunteer6.json
+
 ##### GROCERIES
 ###
 POST {{orders_endpoint}}

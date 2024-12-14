@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import Optional, Type
 
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from src.models import Order, OrderCategory, OrderStatus, User
@@ -50,8 +51,13 @@ def get_orders(
     limit: int = 10,
     sort_by: str = None,
     sort_direction: str = "asc",
+    latitude: str = None,
+    longitude: str = None,
 ) -> list:
-    query = db.query(Order)
+    if latitude is None and longitude is None:
+        query = db.query(Order)
+    else:
+        query = db.query(Order).join(User, Order.senior_id == User.id)
 
     if category:
         query = query.filter(Order.category == category)
@@ -65,13 +71,47 @@ def get_orders(
         query = query.filter(Order.senior_id == senior_id)
     if volunteer_id:
         query = query.filter(Order.volunteer_id == volunteer_id)
-    if sort_by:
-        if sort_direction == "desc":
-            query = query.order_by(getattr(Order, sort_by).desc())
-        else:
-            query = query.order_by(getattr(Order, sort_by).asc())
 
-    return query.offset(skip).limit(limit).all()
+    if latitude is not None and longitude is not None:
+        latitude = float(latitude) if latitude else None
+        longitude = float(longitude) if longitude else None
+
+        distance = (
+            func.acos(
+                func.sin(func.radians(latitude)) * func.sin(func.radians(User.latitude))
+                + func.cos(func.radians(latitude))
+                * func.cos(func.radians(User.latitude))
+                * func.cos(func.radians(User.longitude) - func.radians(longitude))
+            )
+            * 6371
+        )  # Radius of Earth in kilometers
+        query = query.add_columns(distance.label("distance"))
+
+    if sort_by:
+        if sort_by == "distance" and latitude is not None and longitude is not None:
+            if sort_direction == "desc":
+                query = query.order_by(distance.desc())
+            else:
+                query = query.order_by(distance.asc())
+        else:
+            if sort_direction == "desc":
+                query = query.order_by(getattr(Order, sort_by).desc())
+            else:
+                query = query.order_by(getattr(Order, sort_by).asc())
+
+    print(str(query.statement.compile(compile_kwargs={"literal_binds": True})))
+
+    results = query.offset(skip).limit(limit).all()
+
+    orders_with_distance = []
+    for result in results:
+        order = result[0]
+        order_dict = order.__dict__
+        if len(result) > 1:
+            order_dict["distance"] = result[1]
+        orders_with_distance.append(order_dict)
+
+    return orders_with_distance
 
 
 def get_order(db: Session, order_id: int) -> Optional[Type[Order]]:

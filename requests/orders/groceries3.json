@@ -1,8 +1,18 @@
 {
   "category": "groceries",
   "description": {
-    "karma dla kota": "1kg",
-    "drapak": "1szt"
+    "data": [
+      {
+        "id": 3,
+        "text": "Gazeta",
+        "completed": false
+      },
+      {
+        "id": 4,
+        "text": "Leki",
+        "completed": false
+      }
+    ]
   },
   "valid_since": "2025-01-01T00:00:00.001Z",
   "valid_until": "2025-01-25T00:00:00.001Z",

@@ -1,7 +1,18 @@
 {
   "category": "groceries",
   "description": {
-    "śliwki": "2kg"
+    "data": [
+      {
+        "id": 5,
+        "text": "Flaki",
+        "completed": false
+      },
+      {
+        "id": 6,
+        "text": "Makaron",
+        "completed": false
+      }
+    ]
   },
   "valid_since": "2024-12-17T00:15:00.001Z",
   "valid_until": "2024-12-17T00:16:00.001Z",

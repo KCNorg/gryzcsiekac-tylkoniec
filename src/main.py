@@ -81,6 +81,8 @@ def read_orders(
     sort_direction: str = None,
     skip: int = 0,
     limit: int = 10,
+    latitude: str = None,
+    longitude: str = None,
     db: Session = Depends(database.get_db),
 ):
     orders = crud.get_orders(
@@ -95,6 +97,8 @@ def read_orders(
         limit=limit,
         sort_by=sort_by,
         sort_direction=sort_direction,
+        latitude=latitude,
+        longitude=longitude,
     )
     return orders
 

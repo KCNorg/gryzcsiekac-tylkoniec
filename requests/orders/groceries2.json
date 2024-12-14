@@ -1,9 +1,18 @@
 {
   "category": "groceries",
   "description": {
-    "wczorajsza gazeta": "1szt",
-    "salceson": "20dag",
-    "pomidory": "7szt"
+    "data": [
+      {
+        "id": 1,
+        "text": "Pomidory",
+        "completed": false
+      },
+      {
+        "id": 2,
+        "text": "Kapusta",
+        "completed": false
+      }
+    ]
   },
   "valid_since": "2024-12-19T00:06:00.001Z",
   "valid_until": "2024-12-19T00:06:30.001Z",
