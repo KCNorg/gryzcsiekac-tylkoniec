@@ -87,14 +87,8 @@ def delete_order(order_id: int, db: Session = Depends(database.get_db)):
     return db_order
 
 @app.post("/orders", response_model=schemas.Order)
-async def create_order(order: schemas.OrderBase, db: Session = Depends(database.get_db)):
-    order = order.model_dump()
-    order['created_at'] = datetime.now()
-    order_db = Order(**order)
-    db.add(order_db)
-    db.commit()
-    db.refresh(order_db)
-    return order_db
+def create_order(order: schemas.OrderCreate, db: Session = Depends(database.get_db)):
+    return crud.create_order(db=db, order=order)
 
 @app.get("/orders")
 def get_orders(db: Session = Depends(database.get_db)):
