@@ -1,10 +1,9 @@
 from datetime import datetime
-from enum import Enum
-from typing import List, Dict
+from typing import Dict
 
 from pydantic import BaseModel
 
-from src.models import UserType, OrderCategory, OrderStatus
+from src.models import OrderCategory, OrderStatus
 
 
 class UserBase(BaseModel):
@@ -48,20 +47,25 @@ class OrderBase(BaseModel):
     valid_until: datetime
     status: OrderStatus = OrderStatus.PENDING
     senior_id: int
-    volunteer_id: int = None
+    volunteer_id: int | None = None
 
     class Config:
         orm_mode = True
 
-class GetOrdersRequest(BaseModel):
-    ids: List[int]
+class OrderCreate(OrderBase):
+    pass
 
-class GetOrdersResponse(BaseModel):
-    orders: List[OrderBase]
+class OrderUpdate(BaseModel):
+    category: OrderCategory | None = None
+    description: Dict | None = None
+    valid_since: datetime | None = None
+    valid_until: datetime | None = None
+    status: OrderStatus | None = None
+    senior_id: int | None = None
+    volunteer_id: int | None = None
 
     class Config:
-        orm_mode = True
-
+        from_attributes = True
 
 class Order(OrderBase):
     id: int

@@ -49,6 +49,34 @@ def delete_user(user_id: int, db: Session = Depends(database.get_db)):
     db.commit()
     return db_user
 
+@app.get("/orders")
+def read_orders(skip: int = 0, limit: int = 10, db: Session = Depends(database.get_db)):
+    orders = crud.get_orders(db, skip=skip, limit=limit)
+    return orders
+
+@app.get("/orders/{order_id}", response_model=schemas.Order)
+def read_order(order_id: int, db: Session = Depends(database.get_db)):
+    db_order = crud.get_order(db, order_id=order_id)
+    if db_order is None:
+        raise HTTPException(status_code=404, detail="Order not found")
+    return db_order
+
+@app.put("/orders/{order_id}", response_model=schemas.Order)
+def partial_update_order(order_id: int, order_update: schemas.OrderUpdate, db: Session = Depends(database.get_db)):
+    db_order = crud.get_order(db, order_id=order_id)
+    if db_order is None:
+        raise HTTPException(status_code=404, detail="Order not found")
+    return crud.update_order(db=db, order_update=order_update, db_order=db_order)
+
+@app.delete("/orders/{order_id}")
+def delete_order(order_id: int, db: Session = Depends(database.get_db)):
+    db_order = crud.get_order(db, order_id=order_id)
+    if db_order is None:
+        raise HTTPException(status_code=404, detail="Order not found")
+    db.delete(db_order)
+    db.commit()
+    return db_order
+
 @app.post("/orders", response_model=schemas.Order)
 async def create_order(order: schemas.OrderBase, db: Session = Depends(database.get_db)):
     order = order.model_dump()

@@ -1,8 +1,9 @@
+from datetime import datetime
 from typing import Type, Optional
 
 from sqlalchemy.orm import Session
-from src.models import User
-from src.schemas import UserCreate, UserUpdate
+from src.models import User, Order
+from src.schemas import UserCreate, UserUpdate, OrderCreate, OrderUpdate
 
 
 def get_users(db: Session, skip: int = 0, limit: int = 10) -> list[Type[User]]:
@@ -28,3 +29,26 @@ def update_user(db: Session, user_update: UserUpdate, db_user: Type[User]) -> Ty
     db.commit()
     db.refresh(db_user)
     return db_user
+
+def get_orders(db: Session, skip: int = 0, limit: int = 10) -> list[Type[Order]]:
+    return db.query(Order).offset(skip).limit(limit).all()
+
+def get_order(db: Session, order_id: int) -> Optional[Type[Order]]:
+    return db.query(Order).filter(Order.id == order_id).first()
+
+def create_order(db: Session, order: OrderCreate) -> Order:
+    order = order.model_dump()
+    order['created_at'] = datetime.now()
+    db_order = Order(**order)
+    db.add(db_order)
+    db.commit()
+    db.refresh(db_order)
+    return db_order
+
+def update_order(db: Session, order_update: OrderUpdate, db_order: Type[Order]) -> Type[Order]:
+    update_data = order_update.model_dump(exclude_unset=True)
+    for key, value in update_data.items():
+        setattr(db_order, key, value)
+    db.commit()
+    db.refresh(db_order)
+    return db_order
