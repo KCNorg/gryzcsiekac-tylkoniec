@@ -1,8 +1,3 @@
-###
-
-POST https://gryzcsiekac-tylkoniec.onrender.com/users
-Content-Type: application/json
-
 {
   "phone_number": "123456789",
   "first_name": "Roman",

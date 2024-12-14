@@ -1,0 +1,38 @@
+@app_url = localhost:8000
+@users_endpoint = {{app_url}}/users
+
+###
+POST {{users_endpoint}}
+Content-Type: application/json
+
+< users/senior1.json
+
+###
+POST {{users_endpoint}}
+Content-Type: application/json
+
+< users/senior2.json
+
+###
+POST {{users_endpoint}}
+Content-Type: application/json
+
+< users/senior3.json
+
+###
+POST {{users_endpoint}}
+Content-Type: application/json
+
+< users/senior4.json
+
+###
+POST {{users_endpoint}}
+Content-Type: application/json
+
+< users/senior5.json
+
+###
+POST {{users_endpoint}}
+Content-Type: application/json
+
+< users/senior6.json
