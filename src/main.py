@@ -49,9 +49,9 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(database.get_db)
 
 @app.put("/users/{user_id}", response_model=schemas.User)
 def partial_update_user(
-        user_id: int,
-        user_update: schemas.UserUpdate,
-        db: Session = Depends(database.get_db),
+    user_id: int,
+    user_update: schemas.UserUpdate,
+    db: Session = Depends(database.get_db),
 ):
     db_user = crud.get_user(db, user_id=user_id)
     if db_user is None:
@@ -71,17 +71,17 @@ def delete_user(user_id: int, db: Session = Depends(database.get_db)):
 
 @app.get("/orders")
 def read_orders(
-        category: OrderCategory = None,
-        valid_since: datetime = None,
-        valid_until: datetime = None,
-        status: OrderStatus = None,
-        senior_id: int = None,
-        volunteer_id: int = None,
-        sort_by: str = None,
-        sort_direction: str = None,
-        skip: int = 0,
-        limit: int = 10,
-        db: Session = Depends(database.get_db),
+    category: OrderCategory = None,
+    valid_since: datetime = None,
+    valid_until: datetime = None,
+    status: OrderStatus = None,
+    senior_id: int = None,
+    volunteer_id: int = None,
+    sort_by: str = None,
+    sort_direction: str = None,
+    skip: int = 0,
+    limit: int = 10,
+    db: Session = Depends(database.get_db),
 ):
     orders = crud.get_orders(
         db,
@@ -94,7 +94,7 @@ def read_orders(
         volunteer_id=volunteer_id,
         limit=limit,
         sort_by=sort_by,
-        sort_direction=sort_direction
+        sort_direction=sort_direction,
     )
     return orders
 
@@ -109,9 +109,9 @@ def read_order(order_id: int, db: Session = Depends(database.get_db)):
 
 @app.put("/orders/{order_id}", response_model=schemas.Order)
 def partial_update_order(
-        order_id: int,
-        order_update: schemas.OrderUpdate,
-        db: Session = Depends(database.get_db),
+    order_id: int,
+    order_update: schemas.OrderUpdate,
+    db: Session = Depends(database.get_db),
 ):
     db_order = crud.get_order(db, order_id=order_id)
     if db_order is None:

@@ -28,7 +28,7 @@ def create_user(db: Session, user: UserCreate) -> User:
 
 
 def update_user(
-        db: Session, user_update: UserUpdate, db_user: Type[User]
+    db: Session, user_update: UserUpdate, db_user: Type[User]
 ) -> Type[User]:
     update_data = user_update.model_dump(exclude_unset=True)
     for key, value in update_data.items():
@@ -39,17 +39,17 @@ def update_user(
 
 
 def get_orders(
-        db: Session,
-        category: OrderCategory = None,
-        valid_since: datetime = None,
-        valid_until: datetime = None,
-        status: OrderStatus = None,
-        senior_id: int = None,
-        volunteer_id: int = None,
-        skip: int = 0,
-        limit: int = 10,
-        sort_by: str = None,
-        sort_direction: str = "asc"
+    db: Session,
+    category: OrderCategory = None,
+    valid_since: datetime = None,
+    valid_until: datetime = None,
+    status: OrderStatus = None,
+    senior_id: int = None,
+    volunteer_id: int = None,
+    skip: int = 0,
+    limit: int = 10,
+    sort_by: str = None,
+    sort_direction: str = "asc",
 ) -> list:
     query = db.query(Order)
 
@@ -89,7 +89,7 @@ def create_order(db: Session, order: OrderCreate) -> Order:
 
 
 def update_order(
-        db: Session, order_update: OrderUpdate, db_order: Type[Order]
+    db: Session, order_update: OrderUpdate, db_order: Type[Order]
 ) -> Type[Order]:
     update_data = order_update.model_dump(exclude_unset=True)
     for key, value in update_data.items():
