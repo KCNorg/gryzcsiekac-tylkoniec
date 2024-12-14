@@ -3,7 +3,7 @@ from typing import Dict
 
 from pydantic import BaseModel
 
-from src.models import OrderCategory, OrderStatus
+from src.models import OrderCategory, OrderStatus, UserType
 
 
 class UserBase(BaseModel):
@@ -13,7 +13,7 @@ class UserBase(BaseModel):
     address: str | None = None
     longitude: float | None = None
     latitude: float | None = None
-    type: str
+    type: UserType
     image_url: str | None = None
     description: str | None = None
 
