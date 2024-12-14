@@ -1,0 +1,16 @@
+###
+
+POST https://gryzcsiekac-tylkoniec.onrender.com/users
+Content-Type: application/json
+
+{
+  "phone_number": "123456789",
+  "first_name": "Roman",
+  "last_name": "Roman",
+  "address": "Osiedle Centrum B 1/32, Kraków",
+  "longitude": 20.0365907,
+  "latitude": 50.0728302,
+  "type": "senior",
+  "image_url": "https://media.licdn.com/dms/image/v2/D4D03AQGR8C11fgyU1w/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1721250172054?e=2147483647&v=beta&t=mKExxOeDaGjtUCvY_FLvBhZ1k5nLbLSp0mPAYAucJcw",
+  "description": "Miły starszy pan"
+}
