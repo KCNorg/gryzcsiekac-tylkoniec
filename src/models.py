@@ -1,6 +1,8 @@
-from sqlalchemy import Column, Integer, String, Float, Enum, JSON, TIMESTAMP, ForeignKey
-from sqlalchemy.ext.declarative import declarative_base
 import enum
+
+from sqlalchemy import (JSON, TIMESTAMP, Column, Enum, Float, ForeignKey,
+                        Integer, String)
+from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
@@ -18,7 +20,7 @@ class OrderStatus(enum.Enum):
 
 
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
     phone_number = Column(String, unique=True, nullable=False)
@@ -33,7 +35,7 @@ class User(Base):
 
 
 class Order(Base):
-    __tablename__ = 'orders'
+    __tablename__ = "orders"
 
     id = Column(Integer, primary_key=True, index=True)
     category = Column(Enum(UserType), nullable=False)
@@ -42,5 +44,5 @@ class Order(Base):
     valid_since = Column(TIMESTAMP, nullable=False)
     valid_until = Column(TIMESTAMP, nullable=False)
     status = Column(Enum(OrderStatus), nullable=False)
-    senior_id = Column(Integer, ForeignKey('users.id'), nullable=False)
-    volunteer_id = Column(Integer, ForeignKey('users.id'), nullable=True)
+    senior_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    volunteer_id = Column(Integer, ForeignKey("users.id"), nullable=True)
