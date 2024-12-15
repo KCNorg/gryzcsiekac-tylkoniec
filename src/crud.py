@@ -1,11 +1,13 @@
 from datetime import datetime
 from typing import Optional, Type
 
+from fastapi import HTTPException
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from src.models import Order, OrderCategory, OrderStatus, User, UserSession
-from src.schemas import OrderCreate, OrderUpdate, UserCreate, UserUpdate, CreateUserSession
+from src.schemas import (CreateUserSession, LoginRequest, OrderCreate,
+                         OrderUpdate, RegisterRequest, UserCreate, UserUpdate)
 
 
 def get_users(db: Session, skip: int = 0, limit: int = 100) -> list[Type[User]]:
@@ -111,8 +113,6 @@ def get_orders(
             else:
                 query = query.order_by(getattr(Order, sort_by).asc())
 
-    print(str(query.statement.compile(compile_kwargs={"literal_binds": True})))
-
     results = query.offset(skip).limit(limit).all()
 
     if latitude is None or longitude is None:
@@ -152,3 +152,18 @@ def update_order(
     db.commit()
     db.refresh(db_order)
     return db_order
+
+
+def register_user(db: Session, request: RegisterRequest) -> User:
+    db_user = create_user(db, request.to_user_create())
+    user_session = CreateUserSession(user_id=db_user.id, token=request.token)
+    create_user_session(db, user_session)
+    return db_user
+
+
+def login_user(db: Session, request: LoginRequest) -> Type[User]:
+    db_user = get_user_by_phone_number(db, request.phone_number)
+    user_session = get_user_session(db, request.token)
+    if db_user is None or user_session is None or user_session.user_id != db_user.id:
+        raise HTTPException(status_code=404, detail="User not found")
+    return db_user

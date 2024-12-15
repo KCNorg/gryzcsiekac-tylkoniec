@@ -71,7 +71,9 @@ def delete_user(user_id: int, db: Session = Depends(database.get_db)):
 
 
 @app.post("/user-sessions", response_model=schemas.UserSession)
-def create_user_session(user_session: CreateUserSession, db: Session = Depends(database.get_db)) -> UserSession:
+def create_user_session(
+    user_session: CreateUserSession, db: Session = Depends(database.get_db)
+) -> UserSession:
     return crud.create_user_session(db, user_session=user_session)
 
 
@@ -150,6 +152,18 @@ def delete_order(order_id: int, db: Session = Depends(database.get_db)):
 @app.post("/orders", response_model=schemas.Order)
 def create_order(order: schemas.OrderCreate, db: Session = Depends(database.get_db)):
     return crud.create_order(db=db, order=order)
+
+
+@app.post("/register", response_model=schemas.User)
+def register_user(
+    request: schemas.RegisterRequest, db: Session = Depends(database.get_db)
+):
+    return crud.register_user(db=db, request=request)
+
+
+@app.post("/login", response_model=schemas.User)
+def login_user(request: schemas.LoginRequest, db: Session = Depends(database.get_db)):
+    return crud.login_user(db=db, request=request)
 
 
 if __name__ == "__main__":
