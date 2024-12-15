@@ -8,7 +8,7 @@ from src.models import Order, OrderCategory, OrderStatus, User, UserSession
 from src.schemas import OrderCreate, OrderUpdate, UserCreate, UserUpdate, CreateUserSession
 
 
-def get_users(db: Session, skip: int = 0, limit: int = 10) -> list[Type[User]]:
+def get_users(db: Session, skip: int = 0, limit: int = 100) -> list[Type[User]]:
     return db.query(User).offset(skip).limit(limit).all()
 
 
@@ -60,7 +60,7 @@ def get_orders(
     senior_id: int = None,
     volunteer_id: int = None,
     skip: int = 0,
-    limit: int = 10,
+    limit: int = 100,
     sort_by: str = None,
     sort_direction: str = "asc",
     latitude: str = None,
