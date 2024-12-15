@@ -4,8 +4,8 @@ from typing import Optional, Type
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
-from src.models import Order, OrderCategory, OrderStatus, User
-from src.schemas import OrderCreate, OrderUpdate, UserCreate, UserUpdate
+from src.models import Order, OrderCategory, OrderStatus, User, UserSession
+from src.schemas import OrderCreate, OrderUpdate, UserCreate, UserUpdate, CreateUserSession
 
 
 def get_users(db: Session, skip: int = 0, limit: int = 10) -> list[Type[User]]:
@@ -37,6 +37,18 @@ def update_user(
     db.commit()
     db.refresh(db_user)
     return db_user
+
+
+def create_user_session(db: Session, user_session: CreateUserSession) -> UserSession:
+    db_user_session = UserSession(**user_session.model_dump())
+    db.add(db_user_session)
+    db.commit()
+    db.refresh(db_user_session)
+    return db_user_session
+
+
+def get_user_session(db: Session, token: str) -> UserSession:
+    return db.query(UserSession).filter(UserSession.token == token).first()
 
 
 def get_orders(

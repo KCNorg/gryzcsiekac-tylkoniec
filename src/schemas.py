@@ -44,6 +44,22 @@ class UserUpdate(BaseModel):
         from_attributes = True
 
 
+class UserSessionBase(BaseModel):
+    token: str
+    user_id: int
+
+    class Config:
+        from_attributes = True
+
+
+class CreateUserSession(UserSessionBase):
+    pass
+
+
+class UserSession(UserSessionBase):
+    id: int
+
+
 class OrderBase(BaseModel):
     category: OrderCategory
     description: Dict = {}

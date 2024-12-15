@@ -6,7 +6,8 @@ from sqlalchemy.orm import Session
 from starlette.middleware.cors import CORSMiddleware
 
 from src import crud, database, schemas
-from src.models import OrderCategory, OrderStatus
+from src.models import OrderCategory, OrderStatus, UserSession
+from src.schemas import CreateUserSession
 
 app = FastAPI()
 
@@ -67,6 +68,19 @@ def delete_user(user_id: int, db: Session = Depends(database.get_db)):
     db.delete(db_user)
     db.commit()
     return db_user
+
+
+@app.post("/user-sessions", response_model=schemas.UserSession)
+def create_user_session(user_session: CreateUserSession, db: Session = Depends(database.get_db)) -> UserSession:
+    return crud.create_user_session(db, user_session=user_session)
+
+
+@app.get("/user-sessions", response_model=schemas.UserSession)
+def get_user_session(token: str, db: Session = Depends(database.get_db)) -> UserSession:
+    db_user_session = crud.get_user_session(db, token)
+    if db_user_session is None:
+        raise HTTPException(status_code=404, detail="User session not found")
+    return db_user_session
 
 
 @app.get("/orders")

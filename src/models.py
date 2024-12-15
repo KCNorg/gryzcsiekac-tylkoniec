@@ -41,6 +41,16 @@ class User(Base):
     description = Column(String, nullable=True)
 
 
+class UserSession(Base):
+    __tablename__ = "user_sessions"
+
+    id = Column(Integer, primary_key=True, index=True)
+    token = Column(String, nullable=False)
+    user_id = Column(
+        Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
+
+
 class Order(Base):
     __tablename__ = "orders"
 

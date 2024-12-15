@@ -12,6 +12,6 @@ p: postgres
 ```
 
 ```
-alembic revision --autogenerate -m ""
+poetry run alembic revision --autogenerate -m ""
 poetry run alembic downgrade -1
 ```
