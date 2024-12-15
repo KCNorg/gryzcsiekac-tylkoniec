@@ -63,8 +63,8 @@ class UserSession(UserSessionBase):
 class OrderBase(BaseModel):
     category: OrderCategory
     description: Dict = {}
-    valid_since: datetime | None
-    valid_until: datetime | None
+    valid_since: datetime | None = None
+    valid_until: datetime | None = None
     status: OrderStatus = OrderStatus.PENDING
     senior_id: int
     volunteer_id: int | None = None
