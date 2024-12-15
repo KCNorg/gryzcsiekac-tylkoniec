@@ -1,4 +1,4 @@
-@app_url = localhost:8000
+@app_url = https://gryzcsiekac-tylkoniec.onrender.com
 @users_endpoint = {{app_url}}/users
 @orders_endpoint = {{app_url}}/orders
 
@@ -78,12 +78,6 @@ Content-Type: application/json
 < users/volunteer6.json
 
 ##### GROCERIES
-###
-POST {{orders_endpoint}}
-Content-Type: application/json
-
-< orders/groceries1.json
-
 ###
 POST {{orders_endpoint}}
 Content-Type: application/json

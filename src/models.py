@@ -57,10 +57,10 @@ class Order(Base):
     id = Column(Integer, primary_key=True, index=True)
     category = Column(Enum(OrderCategory), nullable=False)
     description = Column(JSON, nullable=False, default=dict)
-    created_at = Column(TIMESTAMP, nullable=False)
-    valid_since = Column(TIMESTAMP, nullable=False)
-    valid_until = Column(TIMESTAMP, nullable=False)
-    status = Column(Enum(OrderStatus), nullable=False)
+    created_at = Column(TIMESTAMP, nullable=True)
+    valid_since = Column(TIMESTAMP, nullable=True)
+    valid_until = Column(TIMESTAMP, nullable=True)
+    status = Column(Enum(OrderStatus), nullable=False, default=OrderStatus.PENDING)
     senior_id = Column(
         Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
     )
