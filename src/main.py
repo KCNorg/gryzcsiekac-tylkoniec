@@ -27,7 +27,7 @@ app.add_middleware(
 
 
 @app.get("/users")
-def read_users(skip: int = 0, limit: int = 10, db: Session = Depends(database.get_db)):
+def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(database.get_db)):
     users = crud.get_users(db, skip=skip, limit=limit)
     return users
 
@@ -94,7 +94,7 @@ def read_orders(
     sort_by: str = None,
     sort_direction: str = None,
     skip: int = 0,
-    limit: int = 10,
+    limit: int = 100,
     latitude: str = None,
     longitude: str = None,
     db: Session = Depends(database.get_db),
